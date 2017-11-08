@@ -370,7 +370,6 @@ public class MediaPlayerService extends Service implements
                 .setPriority(Notification.PRIORITY_DEFAULT)
                 .setContent(mNotificationTemplate)
                 .setUsesChronometer(true)
-                .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .setOngoing(true)
                 .build();
         notification.contentView = mNotificationTemplate;
@@ -381,20 +380,18 @@ public class MediaPlayerService extends Service implements
         /**
          * Expanded notification
          */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
-            RemoteViews mExpandedView = new RemoteViews(this.getPackageName(),R.layout.notification_expanded);
+        RemoteViews mExpandedView = new RemoteViews(this.getPackageName(),R.layout.notification_expanded);
 
-            mExpandedView.setTextViewText(R.id.notification_line_one, singerName);
-            mExpandedView.setTextViewText(R.id.notification_line_two, songName);
-            mExpandedView.setImageViewResource(R.id.notification_expanded_play, isPlaying() ? R.drawable.btn_playback_pause : R.drawable.btn_playback_play);
-            mExpandedView.setImageViewBitmap(R.id.notification_image, artImage);
+        mExpandedView.setTextViewText(R.id.notification_line_one, singerName);
+        mExpandedView.setTextViewText(R.id.notification_line_two, songName);
+        mExpandedView.setImageViewResource(R.id.notification_expanded_play, isPlaying() ? R.drawable.btn_playback_pause : R.drawable.btn_playback_play);
+        mExpandedView.setImageViewBitmap(R.id.notification_image, artImage);
 
-            mExpandedView.setOnClickPendingIntent(R.id.notification_collapse, cancelPending);
-            mExpandedView.setOnClickPendingIntent(R.id.notification_expanded_play, playPausePending);
+        mExpandedView.setOnClickPendingIntent(R.id.notification_collapse, cancelPending);
+        mExpandedView.setOnClickPendingIntent(R.id.notification_expanded_play, playPausePending);
 
-            notification.bigContentView = mExpandedView;
-        }
+        notification.bigContentView = mExpandedView;
 
         if(mNotificationManager != null)
             mNotificationManager.notify(NOTIFICATION_ID, notification);
